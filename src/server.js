@@ -2,7 +2,23 @@ const express = require('express');
 const http = require('http');
 const socketIo = require('socket.io');
 const path = require('path');
-const chalk = require('chalk');
+
+// Safe chalk import with fallback
+let chalk;
+try {
+    chalk = require('chalk');
+} catch (error) {
+    // Fallback to a simple logging function if chalk is not available
+    chalk = {
+        green: (msg) => msg,
+        red: (msg) => msg,
+        blue: (msg) => msg,
+        yellow: (msg) => msg,
+        cyan: (msg) => msg,
+        magenta: (msg) => msg
+    };
+    console.warn('Chalk module not found. Using basic logging.');
+}
 
 const app = express();
 const server = http.createServer(app);
